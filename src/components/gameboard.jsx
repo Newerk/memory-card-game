@@ -7,7 +7,11 @@ function GenerateCards({ arr, setArr, scoreHandler, gameoverHandler }) {
   let [nameStorage, setNameStorage] = useState([]);
 
   useEffect(() => {
-    let randomIndex;
+    const getRandomIndex = (limit, offset, total) => {
+      return total - limit < 20
+        ? Math.floor(Math.random() * (total - offset))
+        : Math.floor(Math.random() * 20);
+    };
 
     if (arr.length < 10) {
       fetch(
@@ -15,31 +19,28 @@ function GenerateCards({ arr, setArr, scoreHandler, gameoverHandler }) {
         { mode: "cors" }
       ).then((result) => {
         result.json().then((info) => {
-          info.data.total - info.data.limit < 20
-            ? (randomIndex = Math.floor(
-                Math.random() * (info.data.total - info.data.offset)
-              ))
-            : (randomIndex = Math.floor(Math.random() * 20));
+          for (let i = 0; i < 5; i++) {
+            // let randomIndex = getRandomIndex(
+            //   info.data.limit,
+            //   info.data.offset,
+            //   info.data.total
+            // );
 
-          //if picture if avaliable, created a card, else dont
-          if (
-            !info.data.results[randomIndex].thumbnail.path.endsWith(
-              "image_not_available"
-            )
-          ) {
-            setArr([
-              ...arr,
-              {
-                name: info.data.results[randomIndex].name,
-                path: info.data.results[randomIndex].thumbnail.path,
-                selected: false,
-              },
-            ]);
-          } else {
-            console.log("image not avaliable");
-            let copy = [...arr];
-            copy.pop();
-            setArr([...copy]);
+            const obj = {
+              name: info.data.results[i].name,
+              path: info.data.results[i].thumbnail.path,
+              selected: false,
+            };
+            console.log(obj.name);
+
+            //if picture if avaliable, created a card, else dont
+            if (
+              !info.data.results[i].thumbnail.path.endsWith(
+                "image_not_available"
+              )
+            ) {
+              setArr([...arr, obj]);
+            }
           }
         });
       });
