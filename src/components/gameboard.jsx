@@ -9,9 +9,10 @@ function GenerateCards({
   scoreHandler,
   gameoverHandler,
   loadingRef,
+  setGameResult,
+  charStorage,
+  setCharStorage,
 }) {
-  let [charStorage, setCharStorage] = useState([]);
-
   useEffect(() => {
     const getRandomIndex = (limit, offset, total) => {
       return total - limit < 20
@@ -106,15 +107,42 @@ function GenerateCards({
   );
 }
 
-export default function Gameboard({ scoreBoardHandler, gameoverHandler }) {
+export default function Gameboard({
+  scoreBoardHandler,
+  gameoverHandler,
+  gameResult,
+  playAgainRef,
+}) {
   const [cardArray, setCardArray] = useState([]);
   const loadingRef = useRef(null);
+  const [charStorage, setCharStorage] = useState([]);
+
   return (
     <div id="gameboard">
       <div ref={loadingRef} className="loading">
         <div className="spinner"></div>
       </div>
+
+      <div
+        ref={playAgainRef}
+        className="play-again"
+        style={{ visibility: "hidden" }}
+      >
+        <p>You {gameResult === "winner" ? "Won" : "Lost"}</p>
+        <button
+          onClick={() => {
+            playAgainRef.current.style.visibility = "hidden";
+            setCharStorage([]);
+            loadingRef.current.style.visibility = "visible";
+          }}
+        >
+          Play Again?
+        </button>
+      </div>
+
       <GenerateCards
+        charStorage={charStorage}
+        setCharStorage={setCharStorage}
         loadingRef={loadingRef}
         arr={cardArray}
         setArr={setCardArray}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Gameboard from "./components/gameboard";
 import Scoreboard from "./components/scoreboard";
 import "./styling/index.css";
@@ -6,10 +6,16 @@ import "./styling/index.css";
 function App() {
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+  const [gameResult, setGameResult] = useState("");
+  const playAgainRef = useRef();
 
   function handleScoreBoard() {
     let score = currentScore;
     setCurrentScore(score + 1);
+    if (currentScore === 9) {
+      setGameResult("winner");
+      playAgainRef.current.style.visibility = "visible";
+    }
 
     if (currentScore >= highScore) {
       setHighScore(score + 1);
@@ -18,6 +24,8 @@ function App() {
 
   function handleGameOver() {
     setCurrentScore(0);
+    setGameResult("loser");
+    playAgainRef.current.style.visibility = "visible";
     console.log("already selected, you lose!");
   }
 
@@ -26,6 +34,8 @@ function App() {
       <h1>Memory Card Game</h1>
       <Scoreboard highScore={highScore} currentScore={currentScore} />
       <Gameboard
+        playAgainRef={playAgainRef}
+        gameResult={gameResult}
         scoreBoardHandler={handleScoreBoard}
         gameoverHandler={handleGameOver}
       />

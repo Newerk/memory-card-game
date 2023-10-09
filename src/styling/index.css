@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Geo&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Geo&display=swap");
 
 /*
   1. Use a more-intuitive box-sizing model.
@@ -65,8 +65,14 @@ h6 {
 }
 
 h1 {
-  font-family: "Geo", sans-serif;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  top: -0.5rem;
+  left: 0;
+  right: 0;
   text-align: center;
+  font-family: "Bebas Neue", sans-serif;
   font-size: 4rem;
   color: white;
 }
@@ -81,6 +87,11 @@ h1 {
   text-align: center;
   line-height: 16rem;
   border: 2px solid black;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
 }
 
 #gameboard {
@@ -129,16 +140,51 @@ footer {
   }
 }
 
-.loading {
+@media (max-width: 800px) {
+  h1 {
+    position: absolute;
+    left: 1rem;
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    visibility: hidden;
+  }
+  #scoreboard {
+    justify-content: space-around;
+    width: 100%;
+    background-color: #1c4877;
+  }
+}
+
+.loading,
+.play-again {
   position: absolute;
   margin-top: -1rem;
   z-index: 1;
   left: 0;
   height: 40rem;
   width: 100vw;
+  background-color: #1c4877;
 }
 
-.spinner{
+.play-again {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-family: "Geo", sans-serif;
+}
+
+.play-again > p {
+  font-size: 3rem;
+  color: white;
+}
+
+.spinner {
   width: 80px;
   height: 80px;
   border: 5px solid #ddd;
@@ -153,11 +199,11 @@ footer {
   animation: spinner 1s infinite linear;
 }
 
-@keyframes spinner{
-  from{
+@keyframes spinner {
+  from {
     transform: rotate(0deg);
   }
-  to{
+  to {
     transform: rotate(360deg);
   }
 }
