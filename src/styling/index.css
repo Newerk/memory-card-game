@@ -85,9 +85,11 @@ h1 {
 
 #gameboard {
   display: grid;
+  z-index: -1;
   grid-template-columns: repeat(5, 200px);
   grid-template-rows: repeat(2, 1fr);
   gap: 1rem;
+  min-height: 40rem;
   width: 100vw;
   flex-wrap: wrap;
   background-color: #1c4877;
@@ -127,7 +129,35 @@ footer {
   }
 }
 
-#will-delete {
-  font-size: 3rem;
-  color: white;
+.loading {
+  position: absolute;
+  margin-top: -1rem;
+  z-index: 1;
+  left: 0;
+  height: 40rem;
+  width: 100vw;
+}
+
+.spinner{
+  width: 80px;
+  height: 80px;
+  border: 5px solid #ddd;
+  border-top: 6px solid #f25a41;
+  border-radius: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  animation: spinner 1s infinite linear;
+}
+
+@keyframes spinner{
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
 }
