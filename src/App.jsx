@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Gameboard from "./components/gameboard";
-import HowToPlay from "./components/how-to-play";
 import Scoreboard from "./components/scoreboard";
+import "./styling/index.css";
 
 function App() {
   const [currentScore, setCurrentScore] = useState(0);
@@ -24,12 +24,15 @@ function App() {
   return (
     <>
       <h1>Memory Card Game</h1>
-      <HowToPlay />
       <Scoreboard highScore={highScore} currentScore={currentScore} />
       <Gameboard
         scoreBoardHandler={handleScoreBoard}
         gameoverHandler={handleGameOver}
       />
+      <footer>
+        <span>Made with Marvel's API</span>
+        <a href="http://marvel.com">http://marvel.com</a>
+      </footer>
     </>
   );
 }

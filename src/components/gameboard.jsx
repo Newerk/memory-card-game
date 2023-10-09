@@ -4,36 +4,47 @@ import "../styling/gameboard.css";
 import { useEffect, useState } from "react";
 
 function GenerateCards({ arr, setArr, scoreHandler, gameoverHandler }) {
-  let count = 0;
-  let list = [];
+  let [nameStorage, setNameStorage] = useState([]);
 
   useEffect(() => {
     let randomIndex;
 
-    while (count < 10) {
+    if (arr.length < 10) {
       fetch(
-        `https://gateway.marvel.com:443/v1/public/characters?limit=100&offset=${randomOffset()}&apikey=412bd8b1e579c4f5f4139cc8ea699d61`,
+        `https://gateway.marvel.com:443/v1/public/characters?limit=20&offset=${randomOffset()}&apikey=412bd8b1e579c4f5f4139cc8ea699d61`,
         { mode: "cors" }
       ).then((result) => {
         result.json().then((info) => {
-          info.data.total - info.data.offset < 100
+          info.data.total - info.data.limit < 20
             ? (randomIndex = Math.floor(
                 Math.random() * (info.data.total - info.data.offset)
               ))
-            : (randomIndex = Math.floor(Math.random() * 100));
+            : (randomIndex = Math.floor(Math.random() * 20));
 
-          list.push({
-            value: info.data.results[randomIndex].name,
-            selected: false,
-          });
-
-          setArr([...list]);
+          //if picture if avaliable, created a card, else dont
+          if (
+            !info.data.results[randomIndex].thumbnail.path.endsWith(
+              "image_not_available"
+            )
+          ) {
+            setArr([
+              ...arr,
+              {
+                name: info.data.results[randomIndex].name,
+                path: info.data.results[randomIndex].thumbnail.path,
+                selected: false,
+              },
+            ]);
+          } else {
+            console.log("image not avaliable");
+            let copy = [...arr];
+            copy.pop();
+            setArr([...copy]);
+          }
         });
       });
-
-      count++;
     }
-  }, [count]);
+  }, [arr]);
 
   function shuffleCards(array) {
     let copy = [...array];
@@ -49,7 +60,7 @@ function GenerateCards({ arr, setArr, scoreHandler, gameoverHandler }) {
 
   function randomOffset() {
     let array = [];
-    for (let i = 0; i <= 1500; i += 100) {
+    for (let i = 0; i <= 1500; i += 20) {
       array.push(i);
     }
 
@@ -62,23 +73,24 @@ function GenerateCards({ arr, setArr, scoreHandler, gameoverHandler }) {
 
   return (
     <>
+      {/* <p id="will-delete">Length: {arr.length}</p> */}
       {shuffleCards(arr).map((card) => (
-        <div
-          key={v4()}
-          className="card"
-          onClick={() => {
-            if (card.selected) {
-              setArr(shuffleCards(arr));
-              arr.forEach((card) => (card.selected = false));
-              gameoverHandler();
-            } else {
-              card.selected = true;
-              scoreHandler();
-              console.log(arr);
-            }
-          }}
-        >
-          {card.value}
+        <div key={v4()}>
+          <img
+            className="card"
+            src={`${card.path}/portrait_incredible.jpg`}
+            onClick={() => {
+              if (card.selected) {
+                setArr(shuffleCards(arr));
+                arr.forEach((card) => (card.selected = false));
+                gameoverHandler();
+              } else {
+                card.selected = true;
+                scoreHandler();
+                console.log(arr);
+              }
+            }}
+          ></img>
         </div>
       ))}
     </>
@@ -87,11 +99,16 @@ function GenerateCards({ arr, setArr, scoreHandler, gameoverHandler }) {
 
 export default function Gameboard({ scoreBoardHandler, gameoverHandler }) {
   const [cardArray, setCardArray] = useState([
-    // { value: "1", selected: false },
-    // { value: "2", selected: false },
-    // { value: "3", selected: false },
-    // { value: "4", selected: false },
-    // { value: "5", selected: false },
+    // { name: "", path: "", selected: false },
+    // { name: "", path: "", selected: false },
+    // { name: "", path: "", selected: false },
+    // { name: "", path: "", selected: false },
+    // { name: "", path: "", selected: false },
+    // { name: "", path: "", selected: false },
+    // { name: "", path: "", selected: false },
+    // { name: "", path: "", selected: false },
+    // { name: "", path: "", selected: false },
+    // { name: "", path: "", selected: false },
   ]);
   return (
     <div id="gameboard">
