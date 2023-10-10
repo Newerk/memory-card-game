@@ -12,6 +12,7 @@ function GenerateCards({
   setGameResult,
   charStorage,
   setCharStorage,
+  gameboardRef,
 }) {
   useEffect(() => {
     const getRandomIndex = (limit, offset, total) => {
@@ -38,7 +39,6 @@ function GenerateCards({
               path: info.data.results[randomIndex].thumbnail.path,
               selected: false,
             };
-            console.log(obj.name1);
 
             //if picture if avaliable, created a card, else dont
             if (
@@ -54,6 +54,7 @@ function GenerateCards({
     } else {
       setArr([...charStorage]);
       loadingRef.current.style.visibility = "hidden";
+      gameboardRef.current.style.visibility = "visible";
     }
   }, [charStorage]);
 
@@ -77,8 +78,6 @@ function GenerateCards({
 
     const randomNum = Math.floor(Math.random() * array.length);
 
-    console.log("random offset: " + array[randomNum]);
-
     return array[randomNum];
   }
 
@@ -97,7 +96,6 @@ function GenerateCards({
               } else {
                 card.selected = true;
                 scoreHandler();
-                console.log(arr);
               }
             }}
           ></img>
@@ -112,13 +110,14 @@ export default function Gameboard({
   gameoverHandler,
   gameResult,
   playAgainRef,
+  gameboardRef,
 }) {
   const [cardArray, setCardArray] = useState([]);
   const loadingRef = useRef(null);
   const [charStorage, setCharStorage] = useState([]);
 
   return (
-    <div id="gameboard">
+    <div ref={gameboardRef} id="gameboard">
       <div ref={loadingRef} className="loading">
         <div className="spinner"></div>
       </div>
@@ -141,6 +140,7 @@ export default function Gameboard({
       </div>
 
       <GenerateCards
+        gameboardRef={gameboardRef}
         charStorage={charStorage}
         setCharStorage={setCharStorage}
         loadingRef={loadingRef}

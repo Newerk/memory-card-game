@@ -8,6 +8,7 @@ function App() {
   const [highScore, setHighScore] = useState(0);
   const [gameResult, setGameResult] = useState("");
   const playAgainRef = useRef();
+  const gameboardRef = useRef();
 
   function handleScoreBoard() {
     let score = currentScore;
@@ -15,6 +16,7 @@ function App() {
     if (currentScore === 9) {
       setGameResult("winner");
       playAgainRef.current.style.visibility = "visible";
+      gameboardRef.current.style.visibility = "hidden";
     }
 
     if (currentScore >= highScore) {
@@ -26,7 +28,7 @@ function App() {
     setCurrentScore(0);
     setGameResult("loser");
     playAgainRef.current.style.visibility = "visible";
-    console.log("already selected, you lose!");
+    gameboardRef.current.style.visibility = "hidden";
   }
 
   return (
@@ -34,6 +36,7 @@ function App() {
       <h1>Memory Card Game</h1>
       <Scoreboard highScore={highScore} currentScore={currentScore} />
       <Gameboard
+        gameboardRef={gameboardRef}
         playAgainRef={playAgainRef}
         gameResult={gameResult}
         scoreBoardHandler={handleScoreBoard}
