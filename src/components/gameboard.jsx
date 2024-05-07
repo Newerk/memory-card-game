@@ -25,7 +25,7 @@ function GenerateCards({
     if (charStorage.length < 10) {
       fetch(
         `https://gateway.marvel.com:443/v1/public/characters?limit=20&offset=${randomOffset()}&apikey=${
-          process.env.REACT_APP_API_KEY
+          import.meta.env.API_KEY
         }`,
         { mode: "cors" }
       ).then((result) => {
