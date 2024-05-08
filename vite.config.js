@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 
 // // https://vitejs.dev/config/
@@ -6,9 +6,14 @@ import react from "@vitejs/plugin-react";
 //   plugins: [react()],
 // });
 
-export default defineConfig({
-  define: {
-    __APP_ENV__: import.meta.env.VITE_MY_API,
-  },
-  plugins: [react()],
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => {
+  // eslint-disable-next-line no-undef
+  const env = loadEnv(mode, process.cwd(), "");
+  return {
+    define: {
+      "process.env.VITE_MY_API": JSON.stringify(env.VITE_MY_API),
+    },
+    plugins: [react()],
+  };
 });
