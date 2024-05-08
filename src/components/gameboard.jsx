@@ -15,8 +15,6 @@ function GenerateCards({
   gameboardRef,
 }) {
   useEffect(() => {
-    console.log(`My API KEY: ` + import.meta.env.VITE_MY_API);
-
     const getRandomIndex = (limit, offset, total) => {
       return total - limit < 20
         ? Math.floor(Math.random() * (total - offset))
