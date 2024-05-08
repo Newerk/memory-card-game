@@ -25,7 +25,7 @@ function GenerateCards({
       fetch(
         // `https://gateway.marvel.com:443/v1/public/characters?limit=20&offset=${randomOffset()}&apikey=${
         //   import.meta.env.VITE_MY_API
-        `https://gateway.marvel.com:443/v1/public/characters?limit=20&offset=${randomOffset()}&apikey=412bd8b1e579c4f5f4139cc8ea699d61}`,
+        `https://gateway.marvel.com:443/v1/public/characters?limit=20&offset=${randomOffset()}&apikey=412bd8b1e579c4f5f4139cc8ea699d61`,
         { mode: "cors" }
       ).then((result) => {
         result.json().then((info) => {
