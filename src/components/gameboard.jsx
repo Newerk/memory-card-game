@@ -2,7 +2,6 @@ import { v4 } from "uuid";
 import "../styling/cards.css";
 import "../styling/gameboard.css";
 import { useEffect, useRef, useState } from "react";
-import "dotenv/config";
 
 function GenerateCards({
   arr,
@@ -24,9 +23,7 @@ function GenerateCards({
 
     if (charStorage.length < 10) {
       fetch(
-        `https://gateway.marvel.com:443/v1/public/characters?limit=20&offset=${randomOffset()}&apikey=${
-          import.meta.env.VITE_API_KEY
-        }`,
+        `https://gateway.marvel.com:443/v1/public/characters?limit=20&offset=${randomOffset()}&apikey=412bd8b1e579c4f5f4139cc8ea699d61`,
         { mode: "cors" }
       ).then((result) => {
         result.json().then((info) => {
